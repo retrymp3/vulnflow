@@ -1,0 +1,35 @@
+name: Dangerous PR Workflow
+
+on:
+  pull_request:
+    branches: ['main']
+    types: [opened, synchronize, reopened]
+
+jobs:
+  dangerous:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write          # Can modify repository files
+      packages: write          # Can publish packages
+      actions: write           # Can modify workflows
+      security-events: write   # Can dismiss security alerts
+      pull-requests: write     # Can modify PRs
+      issues: write            # Can create/modify issues
+      deployments: write       # Can deploy to production
+      id-token: write         # Can assume cloud identities
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ github.token }}
+          
+      - name: Dangerous Actions
+        run: |
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "PR Author: ${{ github.event.pull_request.user.login }}"
+          echo "Repository: ${{ github.repository }}"
+          
+          # This workflow has dangerous permissions!
+          echo "This workflow can modify your repository!"

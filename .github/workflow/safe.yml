@@ -1,0 +1,12 @@
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Safely set variables
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "Safe usage:"
+          echo "$ISSUE_TITLE"
+          echo "$PR_TITLE"
